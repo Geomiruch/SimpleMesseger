@@ -1,0 +1,32 @@
+﻿@model SimpleMessenger.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div>
+    <h4>Информация о пользователе</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Имя
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            Фамилия
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            Email
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Назад</a>
+</div>

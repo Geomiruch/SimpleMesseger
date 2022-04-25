@@ -1,0 +1,161 @@
+﻿@model SimpleMessenger.Models.Conversation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@if(Model.ConversationTypeID == 1){
+    <p>
+        <a asp-controller="UserConversations" asp-action="Create" asp-route-id="@Model.ID">Добавить пользователя в чат</a>
+    </p>
+}
+<div>
+    <h4>Переписка c "@Html.DisplayFor(model => model.Name)"</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            История переписки...
+        </dt>
+        <dd class = "col-sm-10">
+        <div style="display: block; position: relative;height: 300px; overflow: auto;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Отправитель
+                        </th>
+                        <th>
+                            Сообщение
+                        </th>
+                        <th>
+                            Дата
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Messages) {
+                        @if(ViewBag.UserID == item.UserID && item.IsActive){
+                            @if(item.Reply != null)
+                            {
+                                <tr style="background-color:gray">
+                                    <td>
+                                    Ответ на :
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Reply)
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+
+                            }
+                            <tr>
+                            @if(ViewBag.UserId == item.UserID){
+                                <td>
+                                    Вы:
+                                </td>
+                            }
+                            else{
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.FirstName) + @Html.DisplayFor(modelItem => item.User.LastName): 
+                                </td>
+                            }
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Body)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            @if(ViewBag.UserId == item.UserID)
+                            {
+                                <td>    
+                                    <a style="color: green;" asp-controller="Messages" asp-action="Edit" asp-route-id="@item.ID">Изменить</a> |
+                                    <a style="color: red;" asp-controller="Messages" asp-action="DeleteForAll" asp-route-id="@item.ID">Удалить для всех</a> |
+                                    <a style="color: red;" asp-controller="Messages" asp-action="DeleteForMe" asp-route-id="@item.ID">Удалить для меня</a> |
+                                </td>
+                            }
+                            else
+                            {
+                                <td>    
+                                    <a style="color: gray;" asp-controller="Conversations" asp-action="Reply" asp-route-id="@item.ID">Ответить</a>
+                                </td>
+                            }
+                        </tr>
+                        }
+                        else if(ViewBag.UserId != item.UserID){
+                            @if(item.Reply != null)
+                            {
+                                <tr style="background-color:gray">
+                                    <td>
+                                    Ответ на :
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Reply)
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+
+                            }
+                            <tr>
+                            @if(ViewBag.UserId == item.UserID){
+                                <td>
+                                    Вы:
+                                </td>
+                            }
+                            else{
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.FirstName)  @Html.DisplayFor(modelItem => item.User.LastName): 
+                                </td>
+                            }
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Body)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            @if(ViewBag.UserId == item.UserID)
+                            {
+                                <td>    
+                                    <a style="color: green;" asp-controller="Messages" asp-action="Edit" asp-route-id="@item.ID">Изменить</a> |
+                                    <a style="color: red;" asp-controller="Messages" asp-action="DeleteForAll" asp-route-id="@item.ID">Удалить для всех</a> |
+                                    <a style="color: red;" asp-controller="Messages" asp-action="DeleteForMe" asp-route-id="@item.ID">Удалить для меня</a> |
+                                </td>
+                            }
+                            else
+                            {
+                                <td>    
+                                    <a style="color: gray;" asp-controller="Messages" asp-action="Create" asp-route-id="@item.ID">Ответить</a>
+                                </td>
+                            }
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            </div>
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class = "col-sm-2"></dt>
+        <dd class = "col-sm-10">
+            <div class="col-md-4">
+            <form asp-controller="Messages" asp-action="CreateOwn">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Ваше сообщение:</label>
+                    <input type="text" name="body" class="form-control" required/>
+                </div>
+                <div class="form-group" hidden>
+                    <input type="number" name="conversationId" value="@Model.ID" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Отправить" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+        </dd>
+    </dl>
+</div>
+

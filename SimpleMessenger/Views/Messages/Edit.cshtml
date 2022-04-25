@@ -1,0 +1,57 @@
+﻿@model SimpleMessenger.Models.Message
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>Редактирование сообщения...</h4>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Body" class="control-label">Текст сообщения:</label>
+                <input asp-for="Body" class="form-control" required/>
+                <span asp-validation-for="Body" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Reply" class="control-label"></label>
+                <input asp-for="Reply" class="form-control" />
+                <span asp-validation-for="Reply" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Created" class="control-label"></label>
+                <input asp-for="Created" class="form-control" />
+                <span asp-validation-for="Created" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="UserID" class="control-label"></label>
+                <select asp-for="UserID" class="form-control" asp-items="ViewBag.UserID"></select>
+                <span asp-validation-for="UserID" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="ConversationID" class="control-label"></label>
+                <select asp-for="ConversationID" class="form-control" asp-items="ViewBag.ConversationID"></select>
+                <span asp-validation-for="ConversationID" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check" hidden>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Изменить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

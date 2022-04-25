@@ -1,0 +1,30 @@
+﻿@model SimpleMessenger.Models.UserConversation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Добавить человека в чат</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserID" class="control-label"></label>
+                <select asp-for="UserID" class ="form-control" asp-items="ViewBag.UserID"></select>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="ConversationID" class="control-label"></label>
+                <input asp-for="ConversationID" class ="form-control" value="@ViewBag.ConID"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

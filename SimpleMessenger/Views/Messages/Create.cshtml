@@ -1,0 +1,30 @@
+﻿@model SimpleMessenger.Models.Message
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateReply">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Ваше сообщение:</label>
+                    <input type="text" name="body" class="form-control" required/>
+                </div>
+                <div class="form-group" hidden>
+                    <input type="number" name="replyId" value="@ViewBag.replyId" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Отправить" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
