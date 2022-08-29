@@ -56,7 +56,7 @@ namespace SimpleMessenger.Controllers
                 {   
                     
                     User registerUser = new User { FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, Password = model.Password};
-                    // добавляем пользователя в бд
+                    
                     db.Users.Add(registerUser);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Login", "Account");
@@ -69,15 +69,15 @@ namespace SimpleMessenger.Controllers
 
         private async Task Authenticate(User user)
         {
-            // создаем один claim
+            
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.FirstName)
             };
-            // создаем объект ClaimsIdentity
+            
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
+            
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
